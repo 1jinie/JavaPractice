@@ -18,12 +18,10 @@ public class NumberGuessingGame {
             if(input > target){
                 System.out.println("더 작은 숫자입니다.");
                 System.out.println();
-            }
-            if(input < target){
+            } else if(input < target) {
                 System.out.println("더 큰 숫자입니다.");
                 System.out.println();
-            }
-            if(input == target){
+            } else{
                 System.out.println("정답입니다!");
                 System.out.println("축하합니다!");
                 System.out.println("시도 횟수: " + count + "회");
