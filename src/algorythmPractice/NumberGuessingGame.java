@@ -11,17 +11,40 @@ public class NumberGuessingGame {
         boolean restart = true;
 
         do{
-            int count = 0;
-            int target = rand.nextInt(100) + 1;
-//            System.out.println(target);
-            int input;
             System.out.println("===== 숫자 맞추기 게임 =====");
+            System.out.print("난이도를 선택해주세요(1:쉬움, 2:보통, 3:어려움): ");
+            int target;
+            int targetMax;
+            try{
+                int level = sc.nextInt();
+                if(level == 1){
+                    targetMax = 50;
+                    target = rand.nextInt(targetMax) + 1;
+                } else if(level == 2){
+                    targetMax = 100;
+                    target = rand.nextInt(targetMax) + 1;
+                } else if(level == 3){
+                    targetMax = 500;
+                    target = rand.nextInt(targetMax) + 1;
+                } else {
+                    System.out.println("다시 입력해 주세요");
+                    System.out.println();
+                    continue;
+                }
+            } catch(InputMismatchException e){
+                System.out.println("숫자를 입력해 주세요.");
+                System.out.println();
+                sc.next();
+                continue;
+            }
+            int count = 0;
+            int input;
             while (true){
                 System.out.print("숫자를 입력하세요: ");
                 try {
                     input = sc.nextInt();
-                    if(input < 1 || input > 100){
-                        System.out.println("1 ~ 100까지의 숫자를 입력해주세요.");
+                    if(input < 1 || input > targetMax){
+                        System.out.println("1 ~ " + targetMax + "까지의 숫자를 입력해주세요.");
                         System.out.println();
                         continue;
                     }
