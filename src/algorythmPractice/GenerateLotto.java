@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class GenerateLotto {
     static Scanner sc = new Scanner(System.in);
     static Random rand = new Random();
+    static final int MAX = 45;
 
     public static void main(String[] args) {
         System.out.println("===== 로또 번호 생성 프로그램 =====");
@@ -54,22 +55,24 @@ public class GenerateLotto {
     // 로또 번호 생성 메서드
     static void generateNumber(int numOfGame) {
         int[][] totalGame = new int[numOfGame][6];
+        int[] bonusNumber = new int[numOfGame];
         int i = 0;
         while (i < numOfGame) {
             for (int j = 0; j < 6; j++) {
-                totalGame[i][j] = rand.nextInt(45) + 1;
+                totalGame[i][j] = rand.nextInt(MAX) + 1;
             }
-            boolean isDuplicate = checkDuplicate(totalGame[i]);
+            bonusNumber[i] = rand.nextInt(MAX) + 1;
+            boolean isDuplicate = checkDuplicate(totalGame[i], bonusNumber);
             if (isDuplicate) continue;
             Arrays.sort(totalGame[i]);
 //            System.out.println(Arrays.toString(totalGame[i]));  // 각 게임 번호 확인
             i++;
         }
-        printResult(totalGame);
+        printResult(totalGame, bonusNumber);
     }
 
     // 중복 검사 메서드
-    static boolean checkDuplicate(int[] totalGame) {
+    static boolean checkDuplicate(int[] totalGame, int[] bonusNumber) {
         for (int i = 1; i < totalGame.length; i++) {
             for (int j = 0; j < i; j++) {
                 if (totalGame[i] == totalGame[j]) {
@@ -77,17 +80,23 @@ public class GenerateLotto {
                 }
             }
         }
+        for (int j : totalGame) {
+            for (int k : bonusNumber) {
+                if (j == k) return true;
+            }
+        }
         return false;
     }
 
     // 결과 출력 메서드
-    static void printResult(int[][] totalGame) {
+    static void printResult(int[][] totalGame, int[] bonusNumber) {
         for (int i = 0; i < totalGame.length; i++) {
             System.out.print(i + 1 + "번 게임: ");
             for (int j = 0; j < totalGame[i].length; j++) {
                 if (j > 0) System.out.print(", ");
                 System.out.print(totalGame[i][j]);
             }
+            System.out.print(" + " + bonusNumber[i]);
             System.out.println();
         }
 
