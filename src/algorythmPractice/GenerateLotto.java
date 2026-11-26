@@ -12,6 +12,7 @@ public class GenerateLotto {
 //        System.out.println(numOfGame);
     }
 
+    // 로또 생성 게임 횟수 설정
     static int setNumOfGame(){
         while (true){
             System.out.print("생성할 게임 수를 입력하세요: ");
@@ -19,10 +20,13 @@ public class GenerateLotto {
                 int n = sc.nextInt();
                 if(n < 1){
                     System.out.println("1보다 큰 수를 입력해주세요.");
+                    System.out.println();
+                    continue;
                 }
                 return n;
-            } catch (InputMismatchException ex) {
+            } catch (InputMismatchException e) {
                 System.out.println("정수로 입력해주세요.");
+                System.out.println();
                 sc.next();
             }
         }
