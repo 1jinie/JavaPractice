@@ -44,12 +44,28 @@ public class GenerateLotto {
     // 로또 번호 생성 메서드
     static void generateNumber(int numOfGame) {
         int[][] totalGame = new int[numOfGame][6];
-        for(int i = 0; i < numOfGame; i++) {
+        int i = 0;
+        while(i < numOfGame) {
             for (int j = 0; j < 6; j++) {
                 totalGame[i][j] = rand.nextInt(45) + 1;
             }
+            boolean isDuplicate = checkDuplicate(totalGame[i]);
+            if(isDuplicate) continue;
             Arrays.sort(totalGame[i]);
-            System.out.println(Arrays.toString(totalGame[i]));    // 한 게임의 배열 내부 확인
+            System.out.println(Arrays.toString(totalGame[i]));
+            i++;
         }
+    }
+
+    // 중복 검사 메서드
+    static boolean checkDuplicate(int[] totalGame) {
+        for (int i = 1; i < totalGame.length; i++) {
+            for(int j = 0; j < i; j++) {
+                if(totalGame[i] == totalGame[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
