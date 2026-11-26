@@ -11,14 +11,21 @@ public class GenerateLotto {
 
     public static void main(String[] args) {
         System.out.println("===== 로또 번호 생성 프로그램 =====");
-        System.out.println();
-        int numOfGame = setNumOfGame();
-//        System.out.println(numOfGame);    // 게임 횟수 확인
-        System.out.println();
-        System.out.println("===== 로또 번호 생성 결과 =====");
-        System.out.println();
+        boolean restart;
 
-        generateNumber(numOfGame);
+        do {
+            System.out.println();
+            int numOfGame = setNumOfGame();
+//        System.out.println(numOfGame);    // 게임 횟수 확인
+            System.out.println();
+            System.out.println("===== 로또 번호 생성 결과 =====");
+            System.out.println();
+
+            generateNumber(numOfGame);
+            System.out.println();
+            restart = askRestart();
+
+        } while (restart);
 
         System.out.println();
         System.out.println("===== 프로그램 종료 =====");
@@ -90,5 +97,21 @@ public class GenerateLotto {
 
         System.out.println();
         System.out.println("총 " + numOfGame + "게임 생성 완료");
+    }
+
+    // 재시작 메서드
+    static boolean askRestart() {
+        while (true) {
+            System.out.print("다시 생성하시겠습니까?(y/n): ");
+            String enter = sc.next();
+            if(enter.equalsIgnoreCase("y")) {
+                return true;
+            } else if(enter.equalsIgnoreCase("n")) {
+                return false;
+            } else{
+                System.out.println("다시 입력해주세요.");
+                System.out.println();
+            }
+        }
     }
 }
