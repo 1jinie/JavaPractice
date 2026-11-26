@@ -12,20 +12,33 @@ public class GenerateLotto {
 
     public static void main(String[] args) {
         System.out.println("===== 로또 번호 생성 프로그램 =====");
-        boolean restart;
+        boolean restart = false;
+        System.out.println();
+        System.out.println("===== 입력 방식 선택 =====");
+        System.out.println("1. 자동 선택");
+        System.out.println("2. 수동 입력");
+        System.out.print("선택: ");
+        int select = sc.nextInt();
 
         do {
-            System.out.println();
-            int numOfGame = setNumOfGame();
-//        System.out.println(numOfGame);    // 게임 횟수 확인
-            System.out.println();
-            System.out.println("===== 로또 번호 생성 결과 =====");
-            System.out.println();
+            while (true) {
+                System.out.println();
+                int numOfGame = setNumOfGame();
+                System.out.println();
+                if (select == 1) {
+                    generateNumber(numOfGame);
+                    break;
+                } else if (select == 2) {
+                    inputNumber(numOfGame);
+                    break;
+                } else {
+                    System.out.println("잘못된 입력입니다.");
+                }
+            }
 
-            generateNumber(numOfGame);
-            System.out.println();
-            restart = askRestart();
-
+            if (select == 1) {
+                restart = askRestart();
+            }
         } while (restart);
 
         System.out.println();
@@ -65,13 +78,12 @@ public class GenerateLotto {
             boolean isDuplicate = checkDuplicate(totalGame[i], bonusNumber);
             if (isDuplicate) continue;
             Arrays.sort(totalGame[i]);
-//            System.out.println(Arrays.toString(totalGame[i]));  // 각 게임 번호 확인
             i++;
         }
         printResult(totalGame, bonusNumber);
     }
 
-    // 중복 검사 메서드
+    // 중복 검사 메서드(자동)
     static boolean checkDuplicate(int[] totalGame, int[] bonusNumber) {
         for (int i = 1; i < totalGame.length; i++) {
             for (int j = 0; j < i; j++) {
@@ -88,15 +100,28 @@ public class GenerateLotto {
         return false;
     }
 
+    // 중복 검사 메서드(수동)
+    static boolean checkDuplicate(int[] totalGame, int row, int input) {
+        for (int i = 0; i < row; i++) {
+            if (totalGame[i] == input) return true;
+        }
+        return false;
+    }
+
     // 결과 출력 메서드
     static void printResult(int[][] totalGame, int[] bonusNumber) {
+        System.out.println("===== 로또 번호 생성 결과 =====");
+        System.out.println();
+
         for (int i = 0; i < totalGame.length; i++) {
             System.out.print(i + 1 + "번 게임: ");
             for (int j = 0; j < totalGame[i].length; j++) {
                 if (j > 0) System.out.print(", ");
                 System.out.print(totalGame[i][j]);
             }
-            System.out.print(" + " + bonusNumber[i]);
+            if (bonusNumber != null) {
+                System.out.print(" + " + bonusNumber[i]);
+            }
             System.out.println();
         }
 
@@ -107,16 +132,55 @@ public class GenerateLotto {
     // 재시작 메서드
     static boolean askRestart() {
         while (true) {
+            System.out.println();
             System.out.print("다시 생성하시겠습니까?(y/n): ");
             String enter = sc.next();
-            if(enter.equalsIgnoreCase("y")) {
+            if (enter.equalsIgnoreCase("y")) {
                 return true;
-            } else if(enter.equalsIgnoreCase("n")) {
+            } else if (enter.equalsIgnoreCase("n")) {
                 return false;
-            } else{
+            } else {
                 System.out.println("다시 입력해주세요.");
                 System.out.println();
             }
         }
+    }
+
+    // 수동 번호 입력
+    static void inputNumber(int numOfGame) {
+        int[][] totalGame = new int[numOfGame][6];
+        for (int i = 0; i < numOfGame; i++) {
+            System.out.println(i + 1 + "번 게임 번호 입력");
+            System.out.println();
+            int j = 0;
+            boolean isDuplicate;
+            while (j < 6) {
+                System.out.print(j + 1 + "번째 번호: ");
+                try {
+                    totalGame[i][j] = sc.nextInt();
+                    if (totalGame[i][j] < 1 || totalGame[i][j] > MAX) {
+                        System.out.println("1 ~ 45 사이의 값을 입력하세요");
+                        System.out.println();
+                        continue;
+                    }
+                    if (j > 0) {
+                        isDuplicate = checkDuplicate(totalGame[i], j, totalGame[i][j]);
+                        if(isDuplicate) {
+                            System.out.println("이미 입력한 번호입니다. 다시 입력해주세요");
+                            continue;
+                        }
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("잘못된 입력입니다. 다시 입력해주세요");
+                    System.out.println();
+                    sc.next();
+                    continue;
+                }
+                j++;
+            }
+            Arrays.sort(totalGame[i]);
+            System.out.println();
+        }
+        printResult(totalGame, null);
     }
 }
