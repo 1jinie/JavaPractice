@@ -17,8 +17,11 @@ public class GenerateLotto {
         System.out.println();
         System.out.println("===== 로또 번호 생성 결과 =====");
         System.out.println();
+
         generateNumber(numOfGame);
 
+        System.out.println();
+        System.out.println("===== 프로그램 종료 =====");
     }
 
     // 로또 생성 게임 횟수 설정
@@ -45,27 +48,47 @@ public class GenerateLotto {
     static void generateNumber(int numOfGame) {
         int[][] totalGame = new int[numOfGame][6];
         int i = 0;
-        while(i < numOfGame) {
+        while (i < numOfGame) {
             for (int j = 0; j < 6; j++) {
                 totalGame[i][j] = rand.nextInt(45) + 1;
             }
             boolean isDuplicate = checkDuplicate(totalGame[i]);
-            if(isDuplicate) continue;
+            if (isDuplicate) continue;
             Arrays.sort(totalGame[i]);
-            System.out.println(Arrays.toString(totalGame[i]));
+//            System.out.println(Arrays.toString(totalGame[i]));  // 각 게임 번호 확인
             i++;
         }
+        printResult(numOfGame, totalGame);
     }
 
     // 중복 검사 메서드
     static boolean checkDuplicate(int[] totalGame) {
         for (int i = 1; i < totalGame.length; i++) {
-            for(int j = 0; j < i; j++) {
-                if(totalGame[i] == totalGame[j]) {
+            for (int j = 0; j < i; j++) {
+                if (totalGame[i] == totalGame[j]) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    // 결과 출력 메서드
+    static void printResult(int numOfGame, int[][] totalGame) {
+        for (int i = 0; i < totalGame.length; i++) {
+            boolean first = true;
+            System.out.print(i + 1 + "번 게임: ");
+            for (int j = 0; j < totalGame[i].length; j++) {
+                if (!first) {
+                    System.out.print(", ");
+                }
+                System.out.print(totalGame[i][j]);
+                first = false;
+            }
+            System.out.println();
+        }
+
+        System.out.println();
+        System.out.println("총 " + numOfGame + "게임 생성 완료");
     }
 }
