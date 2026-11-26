@@ -38,7 +38,7 @@ public class GenerateLotto {
             try {
                 int n = sc.nextInt();
                 if (n < 1) {
-                    System.out.println("1보다 큰 수를 입력해주세요.");
+                    System.out.println("1 이상의 수를 입력해주세요.");
                     System.out.println();
                     continue;
                 }
@@ -65,7 +65,7 @@ public class GenerateLotto {
 //            System.out.println(Arrays.toString(totalGame[i]));  // 각 게임 번호 확인
             i++;
         }
-        printResult(numOfGame, totalGame);
+        printResult(totalGame);
     }
 
     // 중복 검사 메서드
@@ -81,22 +81,18 @@ public class GenerateLotto {
     }
 
     // 결과 출력 메서드
-    static void printResult(int numOfGame, int[][] totalGame) {
+    static void printResult(int[][] totalGame) {
         for (int i = 0; i < totalGame.length; i++) {
-            boolean first = true;
             System.out.print(i + 1 + "번 게임: ");
             for (int j = 0; j < totalGame[i].length; j++) {
-                if (!first) {
-                    System.out.print(", ");
-                }
+                if (j > 0) System.out.print(", ");
                 System.out.print(totalGame[i][j]);
-                first = false;
             }
             System.out.println();
         }
 
         System.out.println();
-        System.out.println("총 " + numOfGame + "게임 생성 완료");
+        System.out.println("총 " + totalGame.length + "게임 생성 완료");
     }
 
     // 재시작 메서드
