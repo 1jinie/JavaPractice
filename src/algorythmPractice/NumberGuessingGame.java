@@ -22,6 +22,7 @@ public class NumberGuessingGame {
         sc.close();
     }
 
+    // 난이도 설정
     static int setLevel(){
         while(true){
             System.out.print("난이도를 선택해주세요(1:쉬움, 2:보통, 3:어려움): ");
@@ -45,6 +46,7 @@ public class NumberGuessingGame {
         }
     }
 
+    // 숫자 입력
     static int enterNum(int targetMax){
         while (true) {
             System.out.print("1 ~ " + targetMax + "까지의 숫자를 입력해주세요: ");
@@ -64,6 +66,7 @@ public class NumberGuessingGame {
         }
     }
 
+    // 게임 로직
     static void playGame(int target, int targetMax){
         int count = 0;
         while (true) {
@@ -83,6 +86,7 @@ public class NumberGuessingGame {
         }
     }
 
+    // 재시작 로직
     static boolean askRestart(){
         while(true){
             System.out.print("재시작하시겠습니까?(y/n): ");
