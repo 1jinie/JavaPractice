@@ -126,6 +126,10 @@ public class GenerateLotto {
         }
 
         System.out.println();
+        if (totalGame.length > 10) {
+            statistics(totalGame, bonusNumber);
+        }
+        System.out.println();
         System.out.println("총 " + totalGame.length + "게임 생성 완료");
     }
 
@@ -165,7 +169,7 @@ public class GenerateLotto {
                     }
                     if (j > 0) {
                         isDuplicate = checkDuplicate(totalGame[i], j, totalGame[i][j]);
-                        if(isDuplicate) {
+                        if (isDuplicate) {
                             System.out.println("이미 입력한 번호입니다. 다시 입력해주세요");
                             continue;
                         }
@@ -182,5 +186,28 @@ public class GenerateLotto {
             System.out.println();
         }
         printResult(totalGame, null);
+    }
+
+    static void statistics(int[][] totalGame, int[] bonusNumber) {
+        int[] number = new int[45];
+        for (int i = 0; i < totalGame.length; i++) {
+            for (int j = 0; j < totalGame[i].length; j++) {
+                number[totalGame[i][j] - 1]++;
+            }
+        }
+        for(int i = 0; i < bonusNumber.length; i++){
+            number[bonusNumber[i] - 1]++;
+        }
+        System.out.println(Arrays.toString(number));
+        int max = Arrays.stream(number).max().getAsInt();
+        int maxNumber = 0;
+        int min = Arrays.stream(number).min().getAsInt();
+        int minNumber = 0;
+        for(int i = 0; i < number.length; i++) {
+            if(number[i] == max) maxNumber = i + 1;
+            if(number[i] == min) minNumber = i + 1;
+        }
+        System.out.println("가장 많이 등장한 수 : " + maxNumber);
+        System.out.println("가장 적게 등장한 수 : " + minNumber);
     }
 }
