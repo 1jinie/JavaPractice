@@ -188,17 +188,17 @@ public class GenerateLotto {
         printResult(totalGame, null);
     }
 
+    // 생성된 번호 통계 메서드
     static void statistics(int[][] totalGame, int[] bonusNumber) {
         int[] number = new int[45];
-        for (int i = 0; i < totalGame.length; i++) {
-            for (int j = 0; j < totalGame[i].length; j++) {
-                number[totalGame[i][j] - 1]++;
+        for (int[] ints : totalGame) {
+            for (int anInt : ints) {
+                number[anInt - 1]++;
             }
         }
-        for(int i = 0; i < bonusNumber.length; i++){
-            number[bonusNumber[i] - 1]++;
+        for (int j : bonusNumber) {
+            number[j - 1]++;
         }
-        System.out.println(Arrays.toString(number));
         int max = Arrays.stream(number).max().getAsInt();
         int maxNumber = 0;
         int min = Arrays.stream(number).min().getAsInt();
